@@ -8,17 +8,13 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-public class GreetingController {
+public class MachineController {
 
    // private static final String template = "Hello, %s!";
   //  private final AtomicLong counter = new AtomicLong();
 
     @RequestMapping("/requestAmount")
-    public double request(@RequestParam(value="ID")String machineID){
-        return Machine.getTotal();
-    }
-    @RequestMapping("/hey")
-    public String sayhey() {
-        return "Hello from serverside";
+    public String request(@RequestParam(value="ID")String machineID){
+        return Machine.getTotal(machineID);
     }
 }

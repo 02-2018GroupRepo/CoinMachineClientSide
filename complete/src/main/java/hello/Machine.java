@@ -8,14 +8,13 @@ import java.util.ArrayList;
 
 public class Machine {
 
-    static private double totalMoney = 35;
+    static private double totalMoney = 35.25;
     ArrayList<String> products = new ArrayList<String>();
-    private String machineID;
+    private static String machineID;
 
 
     public Machine(String machineID) {
         this.machineID = machineID;
-        //double totalMoney = 35;
 
         products.add("cake");
         products.add("cookie");
@@ -45,12 +44,13 @@ public class Machine {
 
     // Remove the first item
     public void removeFromList() {
-        products.remove(0);
+        String p = products.remove(0);
+        System.out.println(p + " was removed. There are " + products.size() + " left" );
         requestRestock();
     }
 
     public void requestRestock() {
-        if (products.size() < 3) ; // Send a request to the HomeBase by using magic
+        if (products.size() < 3) // Send a request to the HomeBase by using magic
         {
             makeCall(machineID);
             // Send ID to homeBase
@@ -72,7 +72,7 @@ public class Machine {
 
     private void makeCall(String machineID) {
 
-        String transactionUrl = "http://192.168.88.89:8080/hello/requestRestock";
+        String transactionUrl = "http://192.168.88.123:8080/hello/requestRestock";
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromUriString(transactionUrl).queryParam("id", machineID);
 
@@ -80,7 +80,10 @@ public class Machine {
         String response = restTemplate.getForObject(builder.toUriString(), String.class);
         System.out.println(response);
     }
-        public static double getTotal(){
-        return totalMoney;
-        }
+
+    public static String getTotal(String id) {
+        if (machineID.equals(id)) {
+            return Double.toString(totalMoney);
+        } else return "That is an invalid ID. Machine not found.";
+    }
 }
